@@ -94,7 +94,7 @@ const RecipeModal = ({ addModal, setAddModal }) => {
           <textarea
             id="instructions"
             value={recipeDetails?.instructions}
-            placeholder="Add instructions seperated by ,(space)"
+            placeholder="Add instructions seperated by ."
             onChange={(e) =>
               setRecipeDetails({
                 ...recipeDetails,
