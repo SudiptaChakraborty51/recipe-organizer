@@ -79,7 +79,7 @@ const RecipeModal = ({ addModal, setAddModal }) => {
           <label for="ingredients">Ingredients</label>
           <textarea
             id="ingredients"
-            placeholder="Add ingredients"
+            placeholder="Add ingredients seperated by ,(space)"
             value={ingredient}
             onChange={(e) => {
               setIngredient(e.target.value);
@@ -94,7 +94,7 @@ const RecipeModal = ({ addModal, setAddModal }) => {
           <textarea
             id="instructions"
             value={recipeDetails?.instructions}
-            placeholder="Add instructions"
+            placeholder="Add instructions seperated by ,(space)"
             onChange={(e) =>
               setRecipeDetails({
                 ...recipeDetails,
