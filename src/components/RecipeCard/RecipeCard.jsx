@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./RecipeCard.css";
 import { Link } from "react-router-dom";
+import { RecipeContext } from "../../contexts/recipeContext";
 
 const RecipeCard = ({ recipe }) => {
+
+  const {recipeDispatch} = useContext(RecipeContext);
+
   return (
     <div className="recipe-card">
       <img src={recipe.img} alt={recipe.name} />
@@ -23,6 +27,12 @@ const RecipeCard = ({ recipe }) => {
           See Recipe <i class="fa-solid fa-chevron-right"></i>
         </Link>
       </div>
+      <i
+          onClick={() =>
+            recipeDispatch({ type: "REMOVE_RECIPE", payload: recipe.id })
+          }
+          className="fa-solid fa-trash-can"
+        ></i>
     </div>
   );
 };
