@@ -2,25 +2,42 @@ import React, { useContext, useState } from "react";
 import "./RecipeModal.css";
 import { v4 as uuidv4 } from "uuid";
 import { RecipeContext } from "../../contexts/recipeContext";
+import { toast } from "react-toastify";
 
-const RecipeModal = ({ addModal, setAddModal }) => {
+const RecipeModal = ({
+  addModal,
+  setAddModal,
+  recipe,
+  showEditModal,
+  setShowEditModal,
+}) => {
   const { recipeDispatch } = useContext(RecipeContext);
 
-  const [recipeDetails, setRecipeDetails] = useState({
-    id: uuidv4(),
-    name: "",
-    cuisineType: "",
-    ingredients: [],
-    instructions: "",
-    img: "",
-  });
+  const [recipeDetails, setRecipeDetails] = useState(
+    recipe || {
+      id: uuidv4(),
+      name: "",
+      cuisineType: "",
+      ingredients: [],
+      instructions: "",
+      img: "",
+    }
+  );
 
   const [ingredient, setIngredient] = useState("");
 
   const submitHandler = (e) => {
     e.preventDefault();
-    recipeDispatch({ type: "ADD_RECIPE", payload: recipeDetails });
-    setAddModal({ ...addModal, show: false, type: "" });
+    if (recipe) {
+      recipeDispatch({ type: "EDIT_RECIPE", payload: recipeDetails });
+      toast.success("Recipe is edited successfully!");
+    } else {
+      recipeDispatch({ type: "ADD_RECIPE", payload: recipeDetails });
+      toast.success("Added a new recipe successfully!");
+    }
+    recipe
+      ? setShowEditModal({ ...addModal, show: false, type: "" })
+      : setAddModal({ ...addModal, show: false, type: "" });
     setRecipeDetails({
       id: "",
       name: "",
@@ -35,10 +52,14 @@ const RecipeModal = ({ addModal, setAddModal }) => {
     <div className="add-recipe-modal">
       <div className="add-recipe-modal-main">
         <div className="add-recipe-modal-header">
-          <h2>{addModal.type} Recipe</h2>
+          <h2>{recipe ? showEditModal.type : addModal.type} Recipe</h2>
           <i
             class="fa-solid fa-xmark"
-            onClick={() => setAddModal({ ...addModal, show: false, type: "" })}
+            onClick={() =>
+              recipe
+                ? setShowEditModal({ ...addModal, show: false, type: "" })
+                : setAddModal({ ...addModal, show: false, type: "" })
+            }
           ></i>
         </div>
         <form onSubmit={submitHandler}>
@@ -80,7 +101,7 @@ const RecipeModal = ({ addModal, setAddModal }) => {
           <textarea
             id="ingredients"
             placeholder="Add ingredients seperated by ,(space)"
-            value={ingredient}
+            value={recipe ? recipeDetails?.ingredients?.join(", ") : ingredient}
             onChange={(e) => {
               setIngredient(e.target.value);
               setRecipeDetails((recipeDetails) => ({
@@ -102,7 +123,7 @@ const RecipeModal = ({ addModal, setAddModal }) => {
               })
             }
           ></textarea>
-          <button type="submit">Add</button>
+          <button type="submit">{recipe ? "Edit" : "Add"}</button>
         </form>
       </div>
     </div>

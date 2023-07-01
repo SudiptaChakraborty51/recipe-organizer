@@ -17,13 +17,17 @@ const RecipeDetails = () => {
   return (
     <div className="recipe-details">
       <div className="recipe-header">
-        <i class="fa-solid fa-arrow-left" onClick={() => navigate("/")} style={{cursor: "pointer"}}></i>
+        <i
+          class="fa-solid fa-arrow-left"
+          onClick={() => navigate("/")}
+          style={{ cursor: "pointer" }}
+        ></i>
         <h1>{selectedItem?.name}</h1>
       </div>
       <div className="recipe-details-content">
         <img src={selectedItem?.img} alt={selectedItem?.name} />
         <div className="recipe-details-main">
-          <h4>Cuisine: {selectedItem.cuisineType}</h4>
+          <h4>Cuisine: {selectedItem?.cuisineType}</h4>
           <div>
             <strong>Ingredients: </strong>
             {selectedItem?.ingredients?.join(", ")}

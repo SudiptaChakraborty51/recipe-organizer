@@ -22,7 +22,7 @@ export const recipes = [
     id: 2,
     name: "Chicken stir-fry",
     cuisineType: "Chinese",
-    img: "https://source.unsplash.com/random/800x800/?chicken",
+    img: "https://source.unsplash.com/random/800x800/?chicken-food",
     ingredients: [
       "1 tbsp olive oil",
       "1 garlic clove, chopped",

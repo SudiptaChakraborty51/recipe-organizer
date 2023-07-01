@@ -5,7 +5,12 @@ import { recipes } from "../Assets/data";
 export const RecipeContext = createContext();
 
 const RecipeProvider = ({ children }) => {
-  const [recipeState, recipeDispatch] = useReducer(recipeReducer, recipes);
+  const [recipeState, recipeDispatch] = useReducer(
+    recipeReducer,
+    localStorage.getItem("recipes") !== null
+      ? JSON.parse(localStorage.getItem("recipes"))
+      : recipes
+  );
   return (
     <RecipeContext.Provider value={{ recipeState, recipeDispatch }}>
       {children}
