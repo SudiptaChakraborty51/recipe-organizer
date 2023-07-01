@@ -1,0 +1,10 @@
+.filters {
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid black;;
+}
+
+.filters input {
+  padding: 10px 30px;
+  margin: 0 10px;
+}
