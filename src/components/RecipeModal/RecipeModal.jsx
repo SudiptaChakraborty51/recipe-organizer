@@ -4,44 +4,45 @@ import { v4 as uuidv4 } from "uuid";
 import { RecipeContext } from "../../contexts/recipeContext";
 
 const RecipeModal = ({ addModal, setAddModal }) => {
+  const { recipeDispatch } = useContext(RecipeContext);
 
-    const {recipeDispatch} = useContext(RecipeContext);
-    
-    const [recipeDetails, setRecipeDetails] = useState({
-        id: uuidv4(),
-        name: "",
-        cuisineType: "",
-        ingredients: [],
-        instructions: "",
-        img: ""
-    })
+  const [recipeDetails, setRecipeDetails] = useState({
+    id: uuidv4(),
+    name: "",
+    cuisineType: "",
+    ingredients: [],
+    instructions: "",
+    img: "",
+  });
 
-    const [ingredient, setIngredient] = useState("");
+  const [ingredient, setIngredient] = useState("");
 
-    const submitHandler = (e) => {
-        e.preventDefault();
-        setRecipeDetails((prev) => ({ ...prev, ingredients: ingredient.split(", ") }));
-        recipeDispatch({ type: "ADD_RECIPE", payload: recipeDetails });
-        setAddModal({ ...addModal, show: false, type: "" });
-        setRecipeDetails({
-          id: "",
-          name: "",
-          cuisineType: "",
-          ingredients: [],
-          instructions: "",
-          img: ""
-        });
-      };
+  const submitHandler = (e) => {
+    e.preventDefault();
+    recipeDispatch({ type: "ADD_RECIPE", payload: recipeDetails });
+    setAddModal({ ...addModal, show: false, type: "" });
+    setRecipeDetails({
+      id: "",
+      name: "",
+      cuisineType: "",
+      ingredients: [],
+      instructions: "",
+      img: "",
+    });
+  };
 
   return (
     <div className="add-recipe-modal">
       <div className="add-recipe-modal-main">
         <div className="add-recipe-modal-header">
           <h2>{addModal.type} Recipe</h2>
-          <i class="fa-solid fa-xmark" onClick={() => setAddModal({ ...addModal, show: false, type: "" })}></i>
+          <i
+            class="fa-solid fa-xmark"
+            onClick={() => setAddModal({ ...addModal, show: false, type: "" })}
+          ></i>
         </div>
         <form onSubmit={submitHandler}>
-        <label for="image">Add Image Link</label>
+          <label for="image">Add Image Link</label>
           <input
             id="image"
             type="url"
@@ -68,13 +69,26 @@ const RecipeModal = ({ addModal, setAddModal }) => {
             value={recipeDetails?.cuisineType}
             placeholder="Add cuisine"
             onChange={(e) =>
-              setRecipeDetails({ ...recipeDetails, cuisineType: e.target.value })
+              setRecipeDetails({
+                ...recipeDetails,
+                cuisineType: e.target.value,
+              })
             }
           />
 
           <label for="ingredients">Ingredients</label>
-          <textarea id="ingredients" placeholder="Add ingredients" value={ingredient}
-            onChange={(e) => setIngredient(e.target.value)}></textarea>
+          <textarea
+            id="ingredients"
+            placeholder="Add ingredients"
+            value={ingredient}
+            onChange={(e) => {
+              setIngredient(e.target.value);
+              setRecipeDetails((recipeDetails) => ({
+                ...recipeDetails,
+                ingredients: ingredient.split(", "),
+              }));
+            }}
+          ></textarea>
 
           <label for="instructions">Instructions</label>
           <textarea
@@ -82,7 +96,10 @@ const RecipeModal = ({ addModal, setAddModal }) => {
             value={recipeDetails?.instructions}
             placeholder="Add instructions"
             onChange={(e) =>
-              setRecipeDetails({ ...recipeDetails, instructions: e.target.value })
+              setRecipeDetails({
+                ...recipeDetails,
+                instructions: e.target.value,
+              })
             }
           ></textarea>
           <button type="submit">Add</button>
